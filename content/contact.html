@@ -1,0 +1,165 @@
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="ambient"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo"><span class="drop"></span><b>SPIRIT<span>DROP</span></b></a>
+    <div class="nav-links">
+      <a href="/shop">Flavours</a>
+      <a href="/#how">How It Works</a>
+      <a href="/delivery">Delivery</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/shop" class="btn btn-ghost">View Flavours</a>
+      <a href="/shop" class="btn btn-primary">Order Now <span class="arrow">→</span></a>
+      <button class="cart-btn" id="cart-btn" aria-label="Open cart">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.2 12.4a1.5 1.5 0 001.5 1.2h8.6a1.5 1.5 0 001.5-1.2L21 7H6"/></svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/shop">Flavours</a>
+  <a href="/#how">How It Works</a>
+  <a href="/delivery">Delivery</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  <a href="/shop" class="btn btn-primary btn-block">Order Now <span class="arrow">→</span></a>
+</div>
+
+<main id="main" tabindex="-1">
+
+<!-- SUBHERO -->
+<header class="subhero" data-screen-label="Contact Hero">
+  <div class="wrap">
+    <nav class="crumb reveal"><a href="/">Home</a><span class="sep">/</span><b>Contact</b></nav>
+    <div class="subhead">
+      <span class="eyebrow reveal">Contact &amp; Event Enquiries</span>
+      <h1 class="reveal d1">Let's plan<br /><span class="line2">your party.</span></h1>
+      <p class="reveal d2">Engagements, milestone birthdays or corporate functions. Tell us what you're hosting and we'll work out the right number of dispensers and flavours.</p>
+    </div>
+  </div>
+</header>
+
+<!-- CONTACT GRID -->
+<section data-screen-label="Contact Grid">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <a class="info-card" href="mailto:hello@spiritdrop.com.au">
+          <div><h4>Email</h4><div class="iv">hello@spiritdrop.com.au</div><div class="is">For bookings &amp; general enquiries</div></div>
+        </a>
+        <!-- PHONE / SMS AND SOCIAL CARDS REMOVED.
+             No real SpiritDrop phone number or social handles have been
+             supplied, and the previous values (0480 000 000, @spiritdrop,
+             href="#") were placeholders. Restore these cards once genuine
+             contact details exist. -->
+        <div class="info-card" style="cursor:default;">
+          <div><h4>Service Area</h4><div class="iv">Zones around Liverpool 2170</div><div class="is">Check your postcode on the <a href="/delivery">Delivery page</a></div></div>
+        </div>
+        <div class="hours-card">
+          <h4>Delivery &amp; Collection Windows</h4>
+          <p>Available delivery windows are shown during checkout, and collection is always the next day. Our final trading hours are being confirmed, so we don't publish a fixed hours table yet.</p>
+        </div>
+      </div>
+
+      <div class="enquiry-form glass reveal d1">
+        <form id="enquiry-form" class="enq-form-inner" novalidate>
+          <div class="field-row">
+            <div class="field"><label for="eq-name">Name <span class="req">*</span></label><input type="text" id="eq-name" name="name" autocomplete="name" required /></div>
+            <div class="field"><label for="eq-phone">Phone <span class="req">*</span></label><input type="tel" id="eq-phone" name="phone" autocomplete="tel" required /></div>
+          </div>
+          <div class="field"><label for="eq-email">Email <span class="req">*</span></label><input type="email" id="eq-email" name="email" autocomplete="email" required placeholder="you@email.com" /></div>
+          <div class="field-row">
+            <div class="field"><label for="eq-type">Event type</label>
+              <select id="eq-type" name="type"><option>21st Birthday</option><option>Milestone Birthday</option><option>Engagement</option><option>House Party</option><option>Corporate / Function</option><option>Other</option></select>
+            </div>
+            <div class="field"><label for="eq-date">Event date</label><input type="date" id="eq-date" name="date" /></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="eq-guests">Guests</label>
+              <select id="eq-guests" name="guests"><option>Under 20</option><option>20 – 40</option><option>40 – 60</option><option>60 – 100</option><option>100+</option></select>
+            </div>
+            <div class="field"><label for="eq-suburb">Suburb / postcode</label><input type="text" id="eq-suburb" name="suburb" placeholder="e.g. Liverpool 2170" /></div>
+          </div>
+          <div class="field"><label for="eq-message">Tell us about your event</label><textarea id="eq-message" name="message" placeholder="Theme, flavours you're after, anything special…"></textarea></div>
+          <button type="submit" class="btn btn-primary btn-block">Send Enquiry <span class="arrow">→</span></button>
+          <p style="font-size:13px;color:var(--muted-2);margin-top:14px;text-align:center;">By enquiring you confirm you're 18 or over. We use your details to respond to your enquiry — see our <a href="/legal#privacy">Privacy Policy</a>.</p>
+        </form>
+        <div class="enq-success">
+          <div class="ok-ic"><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg></div>
+          <h4>Not connected yet</h4>
+          <p>Prototype form — nothing has been sent, emailed or stored. Once the booking system is connected, this will reach the SpiritDrop team.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<section style="padding-top:0;" data-screen-label="Contact Quicklinks">
+  <div class="wrap">
+    <div class="link-rows reveal">
+      <a href="/shop"><div><b>Browse flavours</b><span>See the full range and add your dispensers straight to cart.</span></div><i class="arw">→</i></a>
+      <a href="/delivery"><div><b>Delivery &amp; collection</b><span>How it works, what's included, and where we deliver.</span></div><i class="arw">→</i></a>
+      <a href="/#faq"><div><b>Read the FAQ</b><span>Quick answers on drinks, the bond, delivery zones and dates.</span></div><i class="arw">→</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="/" class="logo"><span class="drop"></span><b>SPIRIT<span>DROP</span></b></a>
+        <p>Ready-to-pour cocktail dispensers delivered from our Liverpool 2170 base. Set up on arrival, collected the next day.</p>
+      </div>
+      <div class="footer-links">
+        <div class="fc">
+          <h5>Shop</h5>
+          <a href="/shop">All Flavours</a>
+          <a href="/#how">How It Works</a>
+          <a href="/#product">The Dispenser</a>
+          <a href="/#build">Build Your Drop</a>
+        </div>
+        <div class="fc">
+          <h5>Company</h5>
+          <a href="/about">About Us</a>
+          <a href="/delivery">Delivery &amp; Collection</a>
+          <a href="/contact">Contact</a>
+          <a href="/#faq">FAQ</a>
+        </div>
+        <div class="fc">
+          <h5>Legal</h5>
+          <a href="/legal#terms">Terms &amp; Conditions</a>
+          <a href="/legal#privacy">Privacy Policy</a>
+          <a href="/legal#cancellation">Cancellation &amp; Refunds</a>
+        </div>
+        <!-- SOCIAL LINKS INTENTIONALLY OMITTED: no real SpiritDrop
+             Instagram / TikTok / Facebook URLs have been supplied. -->
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> SpiritDrop — Sydney, NSW</span>
+      <span class="age">Please drink responsibly</span>
+    </div>
+    <div class="footer-legal">
+      <p>It is against the law to sell or supply alcohol to, or to obtain alcohol on behalf of, a person under the age of 18 years. The person receiving a SpiritDrop delivery must be 18 or over and may be required to provide valid ID. Alcohol is supplied for off-premises consumption.</p>
+      <!-- LICENCE NUMBER: replace the bracketed placeholder below with the
+           real NSW packaged liquor licence number once granted/confirmed. -->
+      <span class="lic">NSW Packaged Liquor Licence: [LICENCE NUMBER PENDING]</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/spiritdrop-ux.js" defer></script>
+<script src="/spiritdrop.js"></script>
+<script src="/spiritdrop-cart.js"></script>

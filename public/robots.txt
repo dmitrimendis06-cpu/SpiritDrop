@@ -1,0 +1,8 @@
+# SpiritDrop — robots.txt
+# Update Sitemap: to the absolute production URL once the domain is configured.
+
+User-agent: *
+Allow: /
+Disallow: /legal
+
+Sitemap: /sitemap.xml

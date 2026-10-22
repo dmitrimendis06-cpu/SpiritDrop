@@ -1,0 +1,265 @@
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="ambient"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo"><span class="drop"></span><b>SPIRIT<span>DROP</span></b></a>
+    <div class="nav-links">
+      <a href="/shop">Flavours</a>
+      <a href="/#how">How It Works</a>
+      <a href="/delivery">Delivery</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/shop" class="btn btn-ghost">View Flavours</a>
+      <a href="/shop" class="btn btn-primary">Order Now <span class="arrow">→</span></a>
+      <button class="cart-btn" id="cart-btn" aria-label="Open cart">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.2 12.4a1.5 1.5 0 001.5 1.2h8.6a1.5 1.5 0 001.5-1.2L21 7H6"/></svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </div>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/shop">Flavours</a>
+  <a href="/#how">How It Works</a>
+  <a href="/delivery">Delivery</a>
+  <a href="/about">About</a>
+  <a href="/contact">Contact</a>
+  <a href="/shop" class="btn btn-primary btn-block">Order Now <span class="arrow">→</span></a>
+</div>
+
+<main id="main" tabindex="-1">
+
+<!-- SUBHERO -->
+<header class="subhero" data-screen-label="Delivery Hero">
+  <div class="wrap">
+    <nav class="crumb reveal"><a href="/">Home</a><span class="sep">/</span><b>Delivery &amp; Collection</b></nav>
+    <div class="subhead">
+      <span class="eyebrow reveal">Delivery &amp; Collection</span>
+      <h1 class="reveal d1">We drop it.<br /><span class="line2">We collect it.</span></h1>
+      <p class="reveal d2">Your dispenser arrives filled and ready to pour, set up before we leave. The next day we come back and take it all away. No cleaning, no packing down, no return trips.</p>
+    </div>
+    <div class="subhero-stats reveal d3">
+      <div class="ss"><b class="p">By zone</b><span>Delivery fee from 2170</span></div>
+      <div class="ss"><b class="g">Next day</b><span>Collection included</span></div>
+      <div class="ss"><b>$50</b><span>Refundable bond per dispenser</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- TIMELINE -->
+<section data-screen-label="Delivery Timeline">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow purple">The Process</span>
+      <h2 class="section-title" style="margin-top:18px;">From order<br />to collection</h2>
+      <p>Four stages. We handle the heavy lifting at both ends.</p>
+    </div>
+    <ol class="flow">
+      <li class="flow-step reveal">
+        <span class="fs-n">01</span>
+        <h3>Order &amp; pick a date</h3>
+        <p>Choose a flavour for each dispenser and lock in your event date and delivery window at checkout. $200 per dispenser plus a $50 refundable equipment bond per dispenser.</p>
+        <span class="fs-note">Earliest date is the next day</span>
+      </li>
+      <li class="flow-step reveal d1">
+        <span class="fs-n">02</span>
+        <h3>We deliver &amp; set up</h3>
+        <p>Our driver arrives in your chosen window with the dispenser chilled, filled and ready. We set it up on your bar or table.</p>
+        <span class="fs-note">Windows shown at checkout</span>
+      </li>
+      <li class="flow-step reveal d2">
+        <span class="fs-n">03</span>
+        <h3>You pour &amp; enjoy</h3>
+        <p>Lift the tap, fill the glass. Twenty consistent, ready-to-pour drinks with nothing to measure.</p>
+        <span class="fs-note">All night, your night</span>
+      </li>
+      <li class="flow-step reveal d3">
+        <span class="fs-n">04</span>
+        <h3>Next-day collection</h3>
+        <p>We return the next day to collect the dispenser. You choose your next-day collection window at checkout. Leave it where it is and we do the rest.</p>
+        <span class="fs-note">Next-day pickup included</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- POSTCODE CHECKER + LOCAL ZONE PRICING (authoritative) -->
+<section id="postcode" style="padding-top:0;" data-screen-label="Postcode Checker">
+  <div class="wrap">
+    <div class="split tight">
+      <div class="reveal">
+        <span class="live-badge"><span class="pulse"></span> Now delivering</span>
+        <h2 class="section-title" style="font-size:clamp(30px,4.5vw,56px); margin-bottom:16px;">Check your<br />postcode</h2>
+        <p style="color:var(--muted); font-size:16px; max-width:42ch;">We deliver to configured postcode zones around our Liverpool (2170) base. Enter your postcode to confirm your zone and delivery fee.</p>
+        <form class="del-checker" data-pc-form novalidate>
+          <label class="sr-only" for="del-pc">Postcode</label>
+          <div class="pc-wrap">
+            <input type="text" id="del-pc" data-pc-input inputmode="numeric" maxlength="4" placeholder="e.g. 2170" />
+            <button type="submit" class="btn btn-primary" data-pc-go>Check</button>
+          </div>
+          <div class="pc-result" data-pc-result role="status"></div>
+        </form>
+        <p class="zone-outside" style="margin-top:24px;"><b>Outside these zones?</b> We don't quote a delivery price for addresses outside our configured zones. <a href="/contact">Send an enquiry</a> and we'll tell you whether we can help.</p>
+      </div>
+      <div class="reveal d1">
+        <div class="zone-bands" data-zone-bands style="margin-top:0;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section style="padding-top:0;" data-screen-label="Whats Included">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Every Drop Includes</span>
+      <h2 class="section-title" style="margin-top:18px; font-size:clamp(30px,4.5vw,56px);">All in,<br />nothing hidden</h2>
+    </div>
+    <div class="spec-rows">
+      <div class="spec-row reveal">
+        <div class="sr-k">Delivery &amp; setup</div>
+        <div class="sr-v">Delivered, set up and ready to pour the moment we leave. The delivery fee is calculated by location and is not included in the $200 dispenser price.</div>
+      </div>
+      <div class="spec-row reveal">
+        <div class="sr-k">Next-day collection</div>
+        <div class="sr-v">We come back and take the dispenser away. No cleaning, no return trips, nothing to pack down.</div>
+      </div>
+      <div class="spec-row reveal">
+        <div class="sr-k">Refundable bond</div>
+        <div class="sr-v">A $50 bond per dispenser is held against damage and returned in full once the dispenser is collected in good condition.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ THE SPIRITDROP MAP ============================
+     Brand / expansion vision ONLY. Placed deliberately BELOW the postcode
+     checker and zone pricing, which remain the authoritative source of
+     delivery eligibility. NSW "operating" means SpiritDrop operates in NSW —
+     not that it delivers to every NSW address.
+     ============================================================ -->
+<section style="padding-top:0;" data-screen-label="Australia Map">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow purple">The Bigger Picture</span>
+      <h2 class="section-title" style="margin-top:18px; font-size:clamp(30px,4.5vw,56px);">Where SpiritDrop<br />is going</h2>
+      <p>We're operating in NSW today. The rest of the country is on the roadmap.</p>
+    </div>
+    <div class="aum reveal d1" id="au-map">
+      <div class="aum-canvas" id="au-canvas"><div class="aum-tip" id="au-tip" role="tooltip" aria-hidden="true"></div></div>
+      <div class="aum-side">
+        <div class="aum-status" id="au-status" role="status"></div>
+        <div class="aum-list" id="au-list"></div>
+        <p class="aum-note">SpiritDrop currently operates within selected NSW delivery zones. <a href="#postcode">Use the postcode checker above</a> to confirm availability at your address. City markers show geography only — this map is where the brand operates and where it's headed, not a statewide delivery guarantee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section style="padding-top:0;" data-screen-label="Delivery Compliance">
+  <div class="wrap">
+    <div class="comp-card good reveal" style="max-width:none;">
+      <span class="vsbadge">Receiving Your Delivery</span>
+      <h3 style="margin-bottom:20px;">The 18+ &amp; ID rules</h3>
+      <ul class="comp-list" style="display:grid; grid-template-columns:1fr 1fr; gap:15px 40px;">
+        <li>The order must be received by a person aged 18 or over</li>
+        <li>Valid photo ID may be required on delivery</li>
+        <li>We can't leave alcohol with anyone underage or intoxicated</li>
+        <li>Alcohol is supplied for off-premises consumption only</li>
+        <li>Minors may be present at your event, but alcohol must not be supplied to them</li>
+        <li>The dispenser is returnable equipment, collected next day</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY FAQ -->
+<section style="padding-top:0;" data-screen-label="Delivery FAQ">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div class="section-head reveal" style="margin-bottom:0;">
+        <span class="eyebrow">Delivery Questions</span>
+        <h2 class="section-title" style="margin-top:18px; font-size:clamp(30px,4.5vw,56px);">Good to<br />know</h2>
+        <p>Anything else? Our team is one <a href="/contact" style="color:var(--purple)">message away</a>.</p>
+      </div>
+      <div class="faq-list reveal d1">
+        <div class="faq-item"><button class="faq-q" type="button">How far ahead should I book? <span class="faq-icon"></span></button><div class="faq-a"><p>The sooner the better for weekends. The earliest event date you can book is the next day.</p></div></div>
+        <div class="faq-item"><button class="faq-q" type="button">Does someone need to be there for delivery? <span class="faq-icon"></span></button><div class="faq-a"><p>Yes. The person receiving the delivery must be 18+ and may be required to provide valid ID. At checkout you can nominate another adult to receive it on your behalf. We can't leave alcohol unattended or hand it to anyone underage or intoxicated.</p></div></div>
+        <div class="faq-item"><button class="faq-q" type="button">What if I need to change my date? <span class="faq-icon"></span></button><div class="faq-a"><p>Get in touch as early as you can and we'll do our best to move your booking, subject to availability. Our cancellation and rescheduling terms are being finalised — see <a href="/legal#cancellation">Cancellation &amp; Refunds</a>.</p></div></div>
+        <div class="faq-item"><button class="faq-q" type="button">How does the refundable bond work? <span class="faq-icon"></span></button><div class="faq-a"><p>A $50 refundable equipment bond per dispenser sits on top of the $200 dispenser price and is returned in full once the dispenser is collected without damage. It covers the returnable equipment only.</p></div></div>
+        <div class="faq-item"><button class="faq-q" type="button">Do I have to clean the dispenser? <span class="faq-icon"></span></button><div class="faq-a"><p>Not at all. Leave it exactly where it is — we handle all cleaning and sanitising back at base after collection.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final" data-screen-label="Delivery CTA">
+  <div class="wrap">
+    <h2 class="reveal">Ready when<br />you are.</h2>
+    <p class="reveal d1">Pick your flavour, choose your date, and we'll take care of the rest.</p>
+    <div class="hero-cta reveal d2" style="justify-content:center;">
+      <a href="/shop" class="btn btn-primary">Order Now <span class="arrow">→</span></a>
+      <a href="/contact" class="btn btn-ghost">Plan An Event</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="/" class="logo"><span class="drop"></span><b>SPIRIT<span>DROP</span></b></a>
+        <p>Ready-to-pour cocktail dispensers delivered from our Liverpool 2170 base. Set up on arrival, collected the next day.</p>
+      </div>
+      <div class="footer-links">
+        <div class="fc">
+          <h5>Shop</h5>
+          <a href="/shop">All Flavours</a>
+          <a href="/#how">How It Works</a>
+          <a href="/#product">The Dispenser</a>
+          <a href="/#build">Build Your Drop</a>
+        </div>
+        <div class="fc">
+          <h5>Company</h5>
+          <a href="/about">About Us</a>
+          <a href="/delivery">Delivery &amp; Collection</a>
+          <a href="/contact">Contact</a>
+          <a href="/#faq">FAQ</a>
+        </div>
+        <div class="fc">
+          <h5>Legal</h5>
+          <a href="/legal#terms">Terms &amp; Conditions</a>
+          <a href="/legal#privacy">Privacy Policy</a>
+          <a href="/legal#cancellation">Cancellation &amp; Refunds</a>
+        </div>
+        <!-- SOCIAL LINKS INTENTIONALLY OMITTED: no real SpiritDrop
+             Instagram / TikTok / Facebook URLs have been supplied. -->
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span data-year>2026</span> SpiritDrop — Sydney, NSW</span>
+      <span class="age">Please drink responsibly</span>
+    </div>
+    <div class="footer-legal">
+      <p>It is against the law to sell or supply alcohol to, or to obtain alcohol on behalf of, a person under the age of 18 years. The person receiving a SpiritDrop delivery must be 18 or over and may be required to provide valid ID. Alcohol is supplied for off-premises consumption.</p>
+      <!-- LICENCE NUMBER: replace the bracketed placeholder below with the
+           real NSW packaged liquor licence number once granted/confirmed. -->
+      <span class="lic">NSW Packaged Liquor Licence: [LICENCE NUMBER PENDING]</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/spiritdrop-map.js" defer></script>
+<script src="/spiritdrop-ux.js" defer></script>
+<script src="/spiritdrop.js"></script>
+<script src="/spiritdrop-cart.js"></script>
