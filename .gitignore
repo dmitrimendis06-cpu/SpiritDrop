@@ -4,3 +4,6 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 .env*.local
+
+# Machine-specific symlinks created by `npx skills` (restore with: npx skills experimental_install)
+.claude/skills/
