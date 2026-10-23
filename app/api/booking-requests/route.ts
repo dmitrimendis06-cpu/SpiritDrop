@@ -24,12 +24,18 @@ export async function POST(req: Request) {
     const b = await readJson(req);
     const SD = sdData();
 
-    // Dispensers: one flavour name each, all from the current range.
-    const flavours = Array.isArray(b.flavours) ? b.flavours : [];
-    if (flavours.length < 1 || flavours.length > 50) throw new FormError("Choose at least one dispenser.");
-    for (const f of flavours) {
-      if (typeof f !== "string" || !SD.flavourByName(f)) throw new FormError("One of the selected flavours is no longer available.");
+    // Dispensers: [{ flavour_id, quantity }] using current flavour IDs only. Names sent
+    // by the browser are never trusted; the stored name comes from the data layer.
+    const items = Array.isArray(b.items) ? b.items : [];
+    const flavours: string[] = [];
+    for (const raw of items) {
+      const it = (raw ?? {}) as Record<string, unknown>;
+      const f = typeof it.flavour_id === "string" ? SD.flavourById(it.flavour_id) : null;
+      if (!f) throw new FormError("One of the selected flavours is no longer available.");
+      if (!Number.isInteger(it.quantity) || (it.quantity as number) < 1) throw new FormError("Choose a valid number of dispensers.");
+      for (let n = 0; n < (it.quantity as number); n++) flavours.push(f.name);
     }
+    if (flavours.length < 1 || flavours.length > 50) throw new FormError("Choose between 1 and 50 dispensers.");
 
     // Event date and windows.
     const eventDate = text(b.eventDate, "event date", { required: true, max: 10 })!;

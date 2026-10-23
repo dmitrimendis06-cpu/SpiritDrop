@@ -1,0 +1,7 @@
+# Supabase project settings kept in the repo for reproducibility.
+project_id = "nafwzirivmdbvdzdkjhq"
+
+# New sb_publishable_ keys are not JWTs, so the platform's JWT check must be off;
+# the function checks the caller's `apikey` header itself.
+[functions.create-checkout-session]
+verify_jwt = false

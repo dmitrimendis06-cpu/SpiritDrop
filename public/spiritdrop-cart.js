@@ -682,13 +682,22 @@
     foot.querySelector("#co-send").addEventListener("click", function () { sendBooking(body, foot.querySelector("#co-send")); });
   }
 
+  /* Cart lines as [{ flavour_id, quantity }]: flavour IDs only, never names or prices.
+     Same shape the create-checkout-session Edge Function expects. */
+  function checkoutItems() {
+    return state.items.map(function (i) {
+      var f = fOf(i.flavour);
+      return { flavour_id: f ? f.id : null, quantity: i.qty };
+    });
+  }
+
   function sendBooking(body, btn) {
     var c = checkout, err = body.querySelector("#co-err");
     var label = btn.innerHTML;
     btn.disabled = true; btn.textContent = "Sending…";
     err.classList.remove("show");
     postJSON("/api/booking-requests", {
-      flavours: dispenserList(),
+      items: checkoutItems(),
       eventDate: c.date, deliveryWindow: c.delTime, collectionWindow: c.colTime,
       postcode: c.postcode, street: c.street, unit: c.unit, suburb: c.suburb, state: c.auState,
       instructions: c.instructions, notes: c.notes,

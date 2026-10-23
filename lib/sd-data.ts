@@ -9,7 +9,7 @@ import vm from "node:vm";
  */
 type Zone = { id: string; name: string; fee: number };
 type Slot = { id: string; label: string };
-type Flavour = { name: string; slug: string };
+type Flavour = { id: string; name: string; slug: string };
 
 export type SDData = {
   RULES: { dispenserPrice: number; bondPerDispenser: number };
@@ -19,6 +19,7 @@ export type SDData = {
   minEventDate(): string;
   collectionDate(eventISO: string): string;
   flavourByName(name: string): Flavour | null;
+  flavourById(id: string): Flavour | null;
 };
 
 let cached: SDData | undefined;
@@ -26,10 +27,11 @@ let cached: SDData | undefined;
 export function sdData(): SDData {
   if (!cached) {
     const code = fs.readFileSync(path.join(process.cwd(), "public", "spiritdrop-data.js"), "utf8");
-    const sandbox = { window: {} as { SD?: SDData } };
+    const sandbox = { window: {} as { SD?: SDData; FLAVOURS?: Flavour[] } };
     vm.runInNewContext(code, sandbox, { filename: "spiritdrop-data.js" });
-    if (!sandbox.window.SD) throw new Error("spiritdrop-data.js did not define window.SD");
-    cached = sandbox.window.SD;
+    const { SD, FLAVOURS = [] } = sandbox.window;
+    if (!SD) throw new Error("spiritdrop-data.js did not define window.SD");
+    cached = { ...SD, flavourById: (id) => FLAVOURS.find((f) => f.id === id) ?? null };
   }
   return cached;
 }

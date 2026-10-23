@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start -p 3000"
+    "start": "next start -p 3000",
+    "check:catalog": "node scripts/check-catalog.mjs",
+    "test:backend": "node scripts/test-backend.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0",
