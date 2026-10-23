@@ -5,6 +5,9 @@ next-env.d.ts
 *.tsbuildinfo
 .env
 .env*.local
+# Production env is committed on purpose: it holds only public (NEXT_PUBLIC_) values.
+# Never add secret keys here.
+!.env.production
 
 # Machine-specific symlinks created by `npx skills` (restore with: npx skills experimental_install)
 .claude/skills/
