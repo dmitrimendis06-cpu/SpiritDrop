@@ -5,15 +5,16 @@
    Reads every business rule from spiritdrop-data.js (window.SD).
    Nothing is duplicated here.
 
-   PROTOTYPE STATE:
+   BACKEND (Next.js API routes → Supabase):
+   · Booking requests, enquiries and newsletter sign-ups are POSTed
+     to /api/booking-requests, /api/enquiries and /api/newsletter.
+     The server re-validates everything and recalculates all money;
+     figures shown here are for display only.
    · No payment is processed.
-   · Nothing is submitted, emailed or stored.
    · Only the cart contents (flavour + quantity) persist in
      localStorage. Customer name, email, phone, DOB, address and
      recipient details are held in memory for the current page
-     only and are never written to storage. When the backend
-     lands they must be posted to a secure HTTPS API and all
-     money recalculated server-side.
+     only and are never written to browser storage.
    ============================================================ */
 (function () {
   "use strict";
@@ -52,6 +53,19 @@
   function imgOf(name) { var f = fOf(name); return f && f.img ? f.img : ""; }
   function money(n) { return "$" + Number(n).toLocaleString("en-AU"); }
   function esc(s) { return (s || "").replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  /* POST JSON to one of the site's API routes. Rejects with a customer-facing message. */
+  function postJSON(url, data) {
+    return fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (!r.ok || !j.ok) throw new Error(j.error || "We couldn't send that just now. Please try again.");
+          return j;
+        });
+      }, function () {
+        throw new Error("We couldn't reach SpiritDrop. Check your connection and try again.");
+      });
+  }
 
   /* ---- dispenser-level helpers (one flavour per dispenser) ---- */
   function dispenserList() {
@@ -293,7 +307,8 @@
      ============================================================ */
   function openCheckout() {
     if (!state.items.length) { goShop(); return; }
-    if (checkout.step > 4 || !checkout.step) checkout.step = 1;
+    if (checkout.step > 4) resetCheckout();
+    if (!checkout.step) checkout.step = 1;
     coWrap.classList.add("open"); document.body.style.overflow = "hidden";
     renderCheckout(); updateStickyVisibility();
   }
@@ -320,7 +335,17 @@
     if (checkout.step === 1) renderStepDrop(body, foot);
     else if (checkout.step === 2) renderStepDelivery(body, foot);
     else if (checkout.step === 3) renderStepDetails(body, foot);
-    else renderReview(body, foot);
+    else if (checkout.step === 4) renderReview(body, foot);
+    else renderSent(body, foot);
+  }
+
+  /* Forget the customer's details once a request is sent (cart is already cleared). */
+  function resetCheckout() {
+    ["date", "postcode", "unit", "street", "suburb", "instructions", "delTime", "colTime", "notes",
+     "name", "email", "phone", "dobD", "dobM", "dobY", "recipientName", "reference"].forEach(function (k) { checkout[k] = ""; });
+    checkout.auState = "NSW"; checkout.recipient = "self";
+    checkout.ack = false; checkout.terms = false; checkout.step = 1;
+    checkout.deliveryFee = 0; checkout.zoneId = ""; checkout.zoneName = ""; checkout.zoneOk = false;
   }
 
   /* ---- STEP 1 · Your Drop — one flavour per dispenser ---- */
@@ -537,7 +562,7 @@
         '<a href="/legal#privacy" target="_blank" rel="noopener">Privacy Policy</a> and ' +
         '<a href="/legal#cancellation" target="_blank" rel="noopener">Cancellation &amp; Refund Policy</a>.</small></div></div>' +
       '<div class="errmsg" id="err-terms">Please agree to the terms to continue.</div>' +
-      '<div class="notice ra">' + ICON.info + "<div><b>Prototype checkout.</b> " + COPY.prototype + " Your details are not saved to this browser.</div></div>";
+      '<div class="notice ra">' + ICON.info + "<div><b>Booking request.</b> " + COPY.prototype + " Your details are sent to SpiritDrop when you submit, and are not saved in this browser.</div></div>";
 
     ["name", "phone", "email"].forEach(function (k) {
       body.querySelector("#in-" + k).addEventListener("input", function (e) { checkout[k] = e.target.value; });
@@ -617,7 +642,7 @@
     else { var e = body.querySelector(".field.err, .check.err"); if (e) coWrap.querySelector(".co-body").scrollTop = Math.max(0, e.offsetTop - 60); }
   }
 
-  /* ---- STEP 4 · Review (no payment, nothing submitted) ---- */
+  /* ---- STEP 4 · Review, then send the booking request (no payment) ---- */
   function renderReview(body, foot) {
     var t = totals(), c = checkout;
     var delLabel = (DELIVERY_TIMES.filter(function (x) { return x.id === c.delTime; })[0] || {}).label || "—";
@@ -630,7 +655,8 @@
     }).join("");
 
     body.innerHTML =
-      "<h3>Review your order</h3><p class=\"co-sub\">Check everything below. Nothing is submitted or charged at this stage.</p>" +
+      "<h3>Review your order</h3><p class=\"co-sub\">Check everything below, then send your booking request. Nothing is charged at this stage.</p>" +
+      '<div class="form-err" id="co-err" role="alert"></div>' +
       '<div class="co-summary">' + dispLines +
         '<div class="sr"><span>Event date</span><b>' + window.SD.formatDate(c.date) + "</b></div>" +
         '<div class="sr"><span>Delivery address</span><b>' + (esc(addrLine1) || "—") + (addrLine2 ? "<br>" + esc(addrLine2) : "") + "</b></div>" +
@@ -649,11 +675,50 @@
         '<div class="trow bond"><span>Refundable equipment bond (' + t.dispensers + " × " + money(BOND) + ")</span><span>" + money(t.bond) + "</span></div>" +
         '<div class="trow grand"><span>Total</span><span class="gv">' + money(t.payNow) + "</span></div>" +
       "</div>" +
-      '<div class="notice ra">' + ICON.info + "<div><b>Prototype checkout.</b> " + COPY.prototype + " No booking reference has been created and no bond has been taken. " + COPY.responsibleSupply + "</div></div>";
+      '<div class="notice ra">' + ICON.info + "<div><b>Booking request.</b> " + COPY.prototype + " No bond is taken at this stage. " + COPY.responsibleSupply + "</div></div>";
 
-    foot.innerHTML = '<button class="btn btn-ghost" id="co-prev">Back</button><button class="btn btn-primary btn-block" id="co-finish">Close</button>';
+    foot.innerHTML = '<button class="btn btn-ghost" id="co-prev">Back</button><button class="btn btn-primary btn-block" id="co-send">Send Booking Request <span class="arrow">→</span></button>';
     foot.querySelector("#co-prev").addEventListener("click", function () { checkout.step = 3; renderCheckout(); });
-    foot.querySelector("#co-finish").addEventListener("click", closeCheckout);
+    foot.querySelector("#co-send").addEventListener("click", function () { sendBooking(body, foot.querySelector("#co-send")); });
+  }
+
+  function sendBooking(body, btn) {
+    var c = checkout, err = body.querySelector("#co-err");
+    var label = btn.innerHTML;
+    btn.disabled = true; btn.textContent = "Sending…";
+    err.classList.remove("show");
+    postJSON("/api/booking-requests", {
+      flavours: dispenserList(),
+      eventDate: c.date, deliveryWindow: c.delTime, collectionWindow: c.colTime,
+      postcode: c.postcode, street: c.street, unit: c.unit, suburb: c.suburb, state: c.auState,
+      instructions: c.instructions, notes: c.notes,
+      name: c.name, email: c.email, phone: c.phone,
+      dob: c.dobY + "-" + c.dobM + "-" + c.dobD,
+      recipient: c.recipient, recipientName: c.recipientName,
+      ack: c.ack, terms: c.terms
+    }).then(function (res) {
+      checkout.reference = res.reference;
+      checkout.step = 5;
+      state.items = []; saveState(); renderAll();
+      renderCheckout(); scrollBodyTop();
+    }, function (e) {
+      err.textContent = e.message; err.classList.add("show");
+      btn.disabled = false; btn.innerHTML = label;
+      scrollBodyTop();
+    });
+  }
+
+  /* ---- Sent · booking request stored, awaiting SpiritDrop's confirmation ---- */
+  function renderSent(body, foot) {
+    body.innerHTML =
+      '<div class="enq-success" style="display:block;text-align:center;padding:30px 10px;">' +
+        '<div class="ok-ic">' + ICON.check + "</div>" +
+        "<h4>Booking request sent</h4>" +
+        "<p>Your reference is <b>" + esc(checkout.reference) + "</b>. We'll contact you at " + esc(checkout.email) +
+        " to confirm your booking. No payment has been taken.</p>" +
+      "</div>";
+    foot.innerHTML = '<button class="btn btn-primary btn-block" id="co-finish">Close</button>';
+    foot.querySelector("#co-finish").addEventListener("click", function () { closeCheckout(); resetCheckout(); });
   }
 
   /* ---- nav helper ---- */
@@ -709,9 +774,9 @@
   /* ============================================================
      ENQUIRY + NEWSLETTER FORMS
 
-     No backend exists yet, so neither form claims a message was
-     sent. Validation is real, inline and announced; the "success"
-     state states plainly that nothing was transmitted.
+     Validated inline here, then POSTed to /api/enquiries and
+     /api/newsletter, which validate again and store in Supabase.
+     The success state only shows once the server confirms.
      ============================================================ */
   var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
   var PHONE_RE = /^[0-9+()\s-]{8,}$/;
@@ -794,8 +859,18 @@
         }
         summary.classList.remove("show");
         summary.textContent = "";
-        /* Deliberately NOT "message sent": there is no backend to confirm it. */
-        (enq.closest(".enquiry-form") || enq).classList.add("done");
+        var data = {};
+        fields.forEach(function (el) { if (el.name) data[el.name] = el.value; });
+        var btn = enq.querySelector('button[type="submit"]');
+        var label = btn.innerHTML;
+        btn.disabled = true; btn.textContent = "Sending…";
+        postJSON("/api/enquiries", data).then(function () {
+          (enq.closest(".enquiry-form") || enq).classList.add("done");
+        }, function (err) {
+          summary.textContent = err.message;
+          summary.classList.add("show");
+          btn.disabled = false; btn.innerHTML = label;
+        });
       });
     }
 
@@ -829,7 +904,15 @@
           return;
         }
         nerr.classList.remove("show");
-        document.getElementById("news-band").classList.add("done");
+        var nbtn = nl.querySelector('button[type="submit"]');
+        nbtn.disabled = true;
+        postJSON("/api/newsletter", { email: v }).then(function () {
+          document.getElementById("news-band").classList.add("done");
+        }, function (err) {
+          nerr.textContent = err.message;
+          nerr.classList.add("show");
+          nbtn.disabled = false;
+        });
       });
     }
   }

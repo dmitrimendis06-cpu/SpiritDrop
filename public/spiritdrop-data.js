@@ -49,7 +49,8 @@
     licensee: "Licensee: Dmitri Mendis",
     abn: "ABN 84 187 494 574",
     email: "spiritdropjd@gmail.com",
-    prototype: "Prototype — no payment is taken and nothing is submitted, emailed or stored at this stage."
+    /* Shown in the cart and checkout. Update when online payment is added. */
+    prototype: "No payment is taken online. You're sending a booking request, and SpiritDrop will contact you to confirm."
   };
 
   /* ============================================================
