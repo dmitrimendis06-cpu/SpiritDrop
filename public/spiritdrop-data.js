@@ -43,9 +43,12 @@
     windows: "Available delivery windows are shown during checkout.",
     outsideArea: "This location is currently outside our standard delivery area. Contact SpiritDrop to discuss availability.",
     responsibleSupply: "The person receiving the delivery must be 18+ and may be required to provide valid ID. The purchaser is responsible for ensuring alcohol supplied by SpiritDrop is not unlawfully supplied to minors and is consumed in accordance with NSW liquor laws.",
-    under18: "It is against the law to sell or supply alcohol to, or to obtain alcohol on behalf of, a person under the age of 18 years.",
-    /* PENDING — real licence number to be inserted once granted/confirmed. */
-    licence: "NSW Packaged Liquor Licence: [LICENCE NUMBER PENDING]",
+    /* Approved NSW online notice — shown prominently in the cart, checkout and footer. */
+    under18: "No Alcohol can be sold or supplied to anyone under 18. It's against the law.",
+    licence: "NSW Packaged Liquor Licence: LIQP770018577",
+    licensee: "Licensee: Dmitri Mendis",
+    abn: "ABN 84 187 494 574",
+    email: "spiritdropjd@gmail.com",
     prototype: "Prototype — no payment is taken and nothing is submitted, emailed or stored at this stage."
   };
 

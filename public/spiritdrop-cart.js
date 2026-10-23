@@ -178,14 +178,14 @@
     var d = dispensers || 0;
     return '<div class="notice deposit">' + ICON.shield + "<div><b>Refundable equipment bond.</b> " + money(BOND) + " per dispenser" +
       (d ? " (" + d + " × " + money(BOND) + " = " + money(d * BOND) + ")" : "") +
-      ", returned in full once the dispenser is collected without damage.</div></div>";
+      ". The bond is returned after collection where the dispenser is returned without damage.</div></div>";
   }
   function deliveryNotice() {
     return '<div class="notice delivery">' + ICON.truck + "<div><b>Delivered, set up and ready to pour.</b> " +
       COPY.deliveryArea + " " + COPY.deliveryFee + " " + COPY.collection + "</div></div>";
   }
   function raNotice() {
-    return '<div class="notice ra">' + ICON.info + "<div>" + COPY.responsibleSupply + "</div></div>";
+    return '<div class="notice ra">' + ICON.info + "<div><b>" + COPY.under18 + "</b> " + COPY.responsibleSupply + "</div></div>";
   }
 
   /* ============================================================
@@ -529,7 +529,7 @@
 
       '<div class="id-notice">' + ICON.id + '<div class="idt">' + COPY.responsibleSupply + "</div></div>" +
       '<div class="check' + (checkout.ack ? " sel" : "") + '" id="chk-ack" role="checkbox" tabindex="0" aria-checked="' + (checkout.ack ? "true" : "false") + '"><div class="box">' + ICON.check + "</div>" +
-        '<div class="ct"><b>I understand my responsible-supply obligations.</b><br><small>' + COPY.under18 + "</small></div></div>" +
+        '<div class="ct"><b>I understand my responsible-supply obligations.</b><br><small><b>' + COPY.under18 + "</b></small></div></div>" +
       '<div class="errmsg" id="err-ack">Please confirm you understand these obligations.</div>' +
       '<div class="check' + (checkout.terms ? " sel" : "") + '" id="chk-terms" role="checkbox" tabindex="0" aria-checked="' + (checkout.terms ? "true" : "false") + '"><div class="box">' + ICON.check + "</div>" +
         '<div class="ct"><b>I have read and agree to SpiritDrop\'s terms.</b><br><small>' +
