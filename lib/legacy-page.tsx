@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { versionAssetUrls } from "@/lib/assets";
 
 /**
  * Renders a page body ported from the original static site (content/<name>.html).
@@ -14,7 +15,7 @@ import path from "node:path";
  * its scripts fresh. Don't swap them for next/link without porting the scripts.
  */
 export function LegacyPage({ name }: { name: string }) {
-  const html = fs.readFileSync(path.join(process.cwd(), "content", `${name}.html`), "utf8");
+  const html = versionAssetUrls(fs.readFileSync(path.join(process.cwd(), "content", `${name}.html`), "utf8"));
   return (
     <div
       style={{ display: "contents" }}

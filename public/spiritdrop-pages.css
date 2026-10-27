@@ -220,7 +220,8 @@
   .exp-step p { max-width: 44ch; }
   .brand-teaser { grid-template-columns: 1fr; gap: 20px; justify-items: start; }
 }
-@media (max-width: 420px) {
+/* below ~500px the three proof items no longer fit on one line */
+@media (max-width: 520px) {
   /* proof strip becomes three ruled rows: figure left, label right */
   .ah-proof { flex-direction: column; padding-top: 0; }
   .ah-proof li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; margin-right: 0; border-right: 0; border-bottom: 1px solid var(--line-2); }

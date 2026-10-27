@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { versioned } from "@/lib/assets";
 
 const ICON =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23090909'/%3E%3Cpath d='M16 6c4 5.2 6 8.4 6 11a6 6 0 11-12 0c0-2.6 2-5.8 6-11z' fill='%23a855f7'/%3E%3C/svg%3E";
@@ -28,12 +29,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bebas+Neue&display=swap"
           rel="stylesheet"
         />
-        <link rel="stylesheet" href="/spiritdrop.css" />
-        <link rel="stylesheet" href="/spiritdrop-cart.css" />
-        <link rel="stylesheet" href="/spiritdrop-pages.css" />
+        <link rel="stylesheet" href={versioned("/spiritdrop.css")} />
+        <link rel="stylesheet" href={versioned("/spiritdrop-cart.css")} />
+        <link rel="stylesheet" href={versioned("/spiritdrop-pages.css")} />
         <script dangerouslySetInnerHTML={{ __html: 'document.documentElement.className += " js";' }} />
         {/* Shared data layer (window.SD, FLAVOURS, …) — must load before any page script. */}
-        <script src="/spiritdrop-data.js" />
+        <script src={versioned("/spiritdrop-data.js")} />
       </head>
       <body>{children}</body>
     </html>
