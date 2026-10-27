@@ -159,29 +159,48 @@
 .stat-band .stat b.p { color: #c4a0fd; }
 .stat-band .stat span { display: block; margin-top: 10px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-head); }
 
-/* ---------- About SpiritDrop (About: #about-spiritdrop) ---------- */
-/* Desktop: image + notes left, copy right. Mobile: image, copy, then notes. */
-.about-intro { display: grid; grid-template-columns: 0.9fr 1.1fr; grid-template-areas: "fig copy" "notes copy"; column-gap: 64px; row-gap: 26px; align-items: center; }
-.about-figure { grid-area: fig; margin: 0; display: flex; justify-content: center; }
-.about-figure img { display: block; width: min(330px, 74%); height: auto; }
-.about-copy { grid-area: copy; }
-/* product annotations under the dispenser: hairline rows, no cards */
-.about-notes { grid-area: notes; align-self: start; justify-self: center; list-style: none; width: 100%; max-width: 420px; border-top: 1px solid var(--line); }
-.about-notes li { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--line-2); font-size: 14px; color: var(--muted); }
-.about-notes b { font-family: var(--font-head); font-weight: 400; font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--off); white-space: nowrap; }
-.about-copy p { color: var(--muted); font-size: 16.5px; line-height: 1.7; margin-top: 20px; max-width: 50ch; }
-.about-copy p.lead { color: var(--off); font-size: clamp(18px, 1.9vw, 21px); line-height: 1.55; }
-.about-copy .about-line { max-width: none; margin-top: 30px; font-family: var(--font-head); font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #c4a0fd; }
+/* ---------- About page (/about) ---------- */
+/* 1. Hero: copy + proof strip left (~58%), one dispenser right */
+.about-hero { padding-top: 150px; padding-bottom: clamp(80px, 11vh, 130px); }
+.ah-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center; }
+.ah-copy.subhead { max-width: none; }
+.ah-copy p { max-width: 50ch; }
+.ah-figure { margin: 0; position: relative; display: flex; justify-content: center; padding-bottom: 14px; }
+.ah-figure img { position: relative; z-index: 1; display: block; width: min(380px, 84%); height: auto; }
+/* grounded floor light under the base, nothing else */
+.ah-figure::after { content: ""; position: absolute; left: 50%; bottom: 0; width: min(300px, 72%); height: 36px; transform: translateX(-50%); background: radial-gradient(ellipse at center, rgba(155,92,246,0.26), rgba(155,92,246,0) 70%); }
+.ah-proof { list-style: none; display: flex; margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--line); }
+.ah-proof li { padding-right: 36px; margin-right: 36px; border-right: 1px solid var(--line); }
+.ah-proof li:last-child { padding-right: 0; margin-right: 0; border-right: 0; }
+.ah-proof b { display: block; font-family: var(--font-head); font-weight: 400; font-size: clamp(32px, 3.4vw, 44px); line-height: 1; }
+.ah-proof span { display: block; margin-top: 7px; font-family: var(--font-head); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2); }
 
-/* Why SpiritDrop exists: heading left, copy right, ruled */
-.why { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: start; padding-top: 48px; border-top: 1px solid var(--line); }
-.why-copy p { color: var(--muted); font-size: 16.5px; line-height: 1.7; margin-top: 18px; max-width: 56ch; }
-.why-copy p:first-child { margin-top: 0; color: var(--off); font-size: clamp(19px, 2.1vw, 24px); line-height: 1.5; }
+/* LED-inspired hairline: flavour colours from the dispenser's colour-cycling base */
+.led-line { height: 1px; border: 0; background: linear-gradient(90deg, rgba(155,92,246,0) 0%, rgba(155,92,246,0.75) 18%, rgba(92,196,245,0.5) 44%, rgba(168,214,143,0.45) 66%, rgba(255,154,61,0.45) 84%, rgba(255,154,61,0) 100%); }
 
-/* What we do: closing typographic statement */
-.drop-statement { margin-top: 64px; font-family: var(--font-head); font-size: clamp(40px, 8.6vw, 112px); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.005em; }
-.drop-statement span { display: block; }
-.drop-statement span:last-child { color: #c4a0fd; }
+/* 2. Why we built SpiritDrop: oversized heading, copy beside it */
+.about-why { padding-top: 0; }
+.aw-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: end; padding-top: clamp(72px, 10vh, 120px); }
+.aw-title { font-family: var(--font-head); font-weight: 400; font-size: clamp(52px, 8vw, 128px); line-height: 0.9; text-transform: uppercase; letter-spacing: -0.01em; }
+.aw-title span { color: #c4a0fd; }
+.aw-copy p { color: var(--muted); font-size: 17px; line-height: 1.75; margin-top: 18px; max-width: 46ch; }
+.aw-copy .aw-lead { margin-top: 0; color: var(--off); font-size: clamp(20px, 2.2vw, 26px); line-height: 1.45; }
+.aw-copy .aw-kicker { margin-top: 30px; font-family: var(--font-head); font-size: clamp(24px, 2.6vw, 32px); line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; color: var(--off); }
+
+/* 3. The SpiritDrop experience: four stages on a lit track */
+.about-exp { padding-top: clamp(24px, 4vh, 56px); }
+.exp-track { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 36px; position: relative; margin-top: 64px; padding-top: 40px; }
+.exp-track::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, rgba(155,92,246,0.7), rgba(92,196,245,0.5), rgba(168,214,143,0.45), rgba(255,154,61,0.45)); }
+.exp-step { position: relative; }
+.exp-step::before { content: ""; position: absolute; top: -40px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--node); box-shadow: 0 0 0 5px var(--black), 0 0 12px var(--node); }
+.exp-n { display: block; font-family: var(--font-head); font-size: clamp(56px, 5.6vw, 84px); line-height: 1; color: transparent; -webkit-text-stroke: 1.2px rgba(255,255,255,0.3); }
+.exp-step h3 { font-family: var(--font-head); font-weight: 400; font-size: clamp(22px, 2.1vw, 28px); line-height: 1.05; text-transform: uppercase; letter-spacing: 0.02em; margin-top: 14px; }
+.exp-step p { color: var(--muted); font-size: 15.5px; line-height: 1.65; margin-top: 10px; max-width: 30ch; }
+
+/* 4. Responsible by design */
+.about-resp { padding-top: 0; }
+.about-resp .split { align-items: start; }
+.ar-notice { margin-top: 26px; padding-left: 16px; border-left: 2px solid var(--gold); color: var(--off); font-weight: 600; font-size: 15.5px; line-height: 1.55; max-width: 44ch; }
 
 /* Home: small brand-story teaser */
 .brand-teaser { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; padding: 30px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -189,15 +208,25 @@
 .brand-teaser p { color: var(--muted); font-size: 15.5px; line-height: 1.65; margin-top: 10px; max-width: 60ch; }
 
 @media (max-width: 900px) {
-  .about-intro { grid-template-columns: 1fr; grid-template-areas: "fig" "copy" "notes"; row-gap: 32px; }
-  .about-notes { justify-self: stretch; max-width: none; }
-  .about-figure img { width: min(280px, 66%); }
-  .why { grid-template-columns: 1fr; gap: 20px; padding-top: 36px; }
-  .drop-statement { margin-top: 48px; }
+  .about-hero { padding-top: 120px; }
+  .ah-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ah-figure img { width: min(260px, 64%); }
+  .aw-grid { grid-template-columns: 1fr; gap: 28px; align-items: start; }
+  /* track turns vertical: line on the left, nodes beside each stage */
+  .exp-track { grid-template-columns: 1fr; gap: 40px; margin-top: 44px; padding-top: 0; padding-left: 36px; }
+  .exp-track::before { top: 6px; bottom: 6px; left: 5px; right: auto; width: 1px; height: auto; background: linear-gradient(180deg, rgba(155,92,246,0.7), rgba(92,196,245,0.5), rgba(168,214,143,0.45), rgba(255,154,61,0.45)); }
+  .exp-step::before { top: 6px; left: -36px; }
+  .exp-n { font-size: 48px; }
+  .exp-step p { max-width: 44ch; }
   .brand-teaser { grid-template-columns: 1fr; gap: 20px; justify-items: start; }
 }
 @media (max-width: 420px) {
-  .about-notes li { flex-direction: column; gap: 2px; }
+  /* proof strip becomes three ruled rows: figure left, label right */
+  .ah-proof { flex-direction: column; padding-top: 0; }
+  .ah-proof li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; margin-right: 0; border-right: 0; border-bottom: 1px solid var(--line-2); }
+  .ah-proof li:last-child { border-bottom: 0; }
+  .ah-proof b { font-size: 30px; }
+  .ah-proof span { margin-top: 0; text-align: right; }
 }
 
 /* ---------- Contact ---------- */
