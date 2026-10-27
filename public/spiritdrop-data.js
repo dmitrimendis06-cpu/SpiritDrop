@@ -10,7 +10,7 @@
    never be added to this file.
 
    Prices calculated here are for DISPLAY ONLY. When the backend
-   lands, all money (product, bond, delivery, add-ons, total)
+   lands, all money (product, bond, delivery, total)
    must be recalculated and validated server-side.
    ============================================================ */
 (function () {
@@ -265,17 +265,14 @@
   };
 
   /* ============================================================
-     3. ADD-ONS — approved TYPES only.
-     PRICES AND PACK SIZES ARE NOT YET APPROVED, so purchasing
-     controls are disabled and nothing is added to any total.
-     Set pending:false and add a numeric price once the owner
-     confirms pricing and quantities.
+     3. ADD-ONS — NOT OFFERED AT LAUNCH.
+     Cocktail cups, dried garnishes and ice bags are not sold, so
+     nothing about them is shown and nothing is added to any total.
+     The backend keeps dormant structure for them (catalog_addons,
+     order_addons, orders.addon_total_cents = 0). To reintroduce:
+     set prices/pack sizes in catalog_addons, then add UI here.
      ============================================================ */
-  window.SD.ADDONS = [
-    { id: "cups", name: "Cocktail Cups", desc: "Pack size to be confirmed. Cup branding is not finalised.", price: null, pending: true },
-    { id: "garnish", name: "Dried Garnishes", desc: "Dried orange, lemon, lime, grapefruit or blood orange. Pack structure to be confirmed.", price: null, pending: true },
-    { id: "ice", name: "Ice Bags (optional)", desc: "Optional extra. Each dispenser already has a removable cooling tube fitted in the lid.", price: null, pending: true }
-  ];
+
 
   /* ============================================================
      4. DELIVERY ZONES — configured bands radiating out from the

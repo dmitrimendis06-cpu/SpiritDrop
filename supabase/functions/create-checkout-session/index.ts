@@ -1,14 +1,16 @@
 // create-checkout-session
 //
-// PHASE 1 (current): Stripe is NOT configured. This function validates the
-// checkout, prices it server-side, checks availability and creates a
+// PHASE 1 (current): no payment provider is configured. This function validates
+// the checkout, prices it server-side, checks availability and creates a
 // `pending_payment` order with its items, then returns a development response.
 // It never confirms a booking and never reports a payment.
 //
-// PHASE 2 (later): after the order is created, create a Stripe Checkout Session
-// using STRIPE_SECRET_KEY (Edge Function secret), store its id on the order,
-// and return the session URL. A separate webhook function will use
-// STRIPE_WEBHOOK_SECRET to mark orders paid. Neither secret exists yet.
+// PHASE 2 (later, provider not yet chosen): after the order is created, create
+// the provider's hosted checkout session using its secret key (Edge Function
+// secret), store payment_provider + payment_session_id on the order, and return
+// the checkout URL. A separate webhook function verifies the provider's
+// signature and sets status = 'paid' + payment_reference, which triggers the
+// order emails (send-order-notifications). No provider secrets exist yet.
 //
 // Deployed with verify_jwt = false: the new publishable keys are not JWTs, so the
 // caller's `apikey` header is checked in code instead.

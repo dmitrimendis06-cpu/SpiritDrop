@@ -5,3 +5,7 @@ project_id = "nafwzirivmdbvdzdkjhq"
 # the function checks the caller's `apikey` header itself.
 [functions.create-checkout-session]
 verify_jwt = false
+
+# Called by the paid-order database trigger with an x-notify-token from Vault.
+[functions.send-order-notifications]
+verify_jwt = false

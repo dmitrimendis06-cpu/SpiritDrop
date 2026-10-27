@@ -21,7 +21,6 @@
 
   var R = (window.SD && window.SD.RULES) || { dispenserPrice: 200, bondPerDispenser: 50, drinksPerDispenser: 20 };
   var COPY = (window.SD && window.SD.COPY) || {};
-  var ADDONS = (window.SD && window.SD.ADDONS) || [];
   var DISPENSER = R.dispenserPrice, BOND = R.bondPerDispenser, DRINKS = R.drinksPerDispenser;
   var CART_KEY = "sd_cart_v2";
 
@@ -106,7 +105,7 @@
     var dispensers = totalDispensers();
     var sub = dispensers * DISPENSER;
     var bond = dispensers * BOND;
-    /* Add-on pricing is not approved yet — add-ons contribute nothing. */
+    /* No add-ons at launch: total = dispensers + delivery + bond. */
     var delivery = checkout.zoneOk ? (checkout.deliveryFee || 0) : 0;
     return {
       dispensers: dispensers, drinks: dispensers * DRINKS,
@@ -180,14 +179,6 @@
   }
 
   /* ---- shared blocks so cart, sidebar and checkout can't drift ---- */
-  function addonPanel() {
-    var rows = ADDONS.map(function (a) {
-      return '<div class="addon pending"><div class="ax-main"><div class="ax-name">' + a.name + '</div><div class="ax-desc">' + a.desc + "</div></div>" +
-        '<div class="ax-price">Price TBC</div></div>';
-    }).join("");
-    return '<div class="addons"><h4>Add-ons</h4>' + rows +
-      '<p class="addon-note">Pricing and pack sizes are still being confirmed, so add-ons can\'t be purchased online yet. Mention them when you book and we\'ll confirm the cost.</p></div>';
-  }
   function bondNotice(dispensers) {
     var d = dispensers || 0;
     return '<div class="notice deposit">' + ICON.shield + "<div><b>Refundable equipment bond.</b> " + money(BOND) + " per dispenser" +
@@ -240,7 +231,7 @@
         "</div>";
     });
 
-    html += addonPanel() + bondNotice(t.dispensers) + deliveryNotice() + raNotice();
+    html += bondNotice(t.dispensers) + deliveryNotice() + raNotice();
     body.innerHTML = html;
 
     body.querySelectorAll("[data-inc]").forEach(function (b) { b.addEventListener("click", function () { setQty(+b.dataset.inc, state.items[+b.dataset.inc].qty + 1); }); });
@@ -370,7 +361,7 @@
         "</div>";
     });
 
-    html += addonPanel() + bondNotice(t.dispensers);
+    html += bondNotice(t.dispensers);
     body.innerHTML = html;
 
     body.querySelector("#co-qplus").addEventListener("click", function () {
@@ -664,13 +655,11 @@
         '<div class="sr"><span>Delivery window</span><b>' + delLabel + "</b></div>" +
         '<div class="sr"><span>Next-day collection</span><b>' + window.SD.formatDate(colDate) + " · " + colLabel + "</b></div>" +
         '<div class="sr"><span>Setup</span><b>Delivered, set up and ready to pour</b></div>' +
-        '<div class="sr"><span>Add-ons</span><b>None — add-on pricing not yet available online</b></div>' +
         '<div class="sr"><span>Receiving delivery</span><b>' + (c.recipient === "other" ? esc(c.recipientName) + " (18+)" : esc(c.name) + " (you)") + "</b></div>" +
         '<div class="sr"><span>Contact</span><b>' + esc(c.name) + "<br>" + esc(c.email) + " · " + esc(c.phone) + "</b></div>" +
       "</div>" +
       '<div class="totals co-totals">' +
         '<div class="trow"><span>Product subtotal (' + t.dispensers + " × " + money(DISPENSER) + ")</span><span>" + money(t.sub) + "</span></div>" +
-        '<div class="trow"><span>Add-ons</span><span class="tmuted">—</span></div>' +
         '<div class="trow"><span>Delivery fee' + (c.zoneName ? " · " + esc(c.zoneName.replace(/^Zone \d+ · /, "")) : "") + "</span><span>" + (t.delivery ? money(t.delivery) : "No fee") + "</span></div>" +
         '<div class="trow bond"><span>Refundable equipment bond (' + t.dispensers + " × " + money(BOND) + ")</span><span>" + money(t.bond) + "</span></div>" +
         '<div class="trow grand"><span>Total</span><span class="gv">' + money(t.payNow) + "</span></div>" +
