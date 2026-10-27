@@ -159,28 +159,45 @@
 .stat-band .stat b.p { color: #c4a0fd; }
 .stat-band .stat span { display: block; margin-top: 10px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-head); }
 
-/* ---------- Founders (About: #who-we-are / Home teaser) ---------- */
-.founders { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
-.founders-photo { margin: 0; }
-.founders-photo img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
-.founders-photo figcaption { margin-top: 12px; font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--font-head); color: var(--muted-2); }
-.founders-body p { color: var(--muted); font-size: 16.5px; line-height: 1.7; margin-top: 20px; max-width: 48ch; }
-.founder-names { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); gap: 18px 56px; margin-top: 38px; padding-top: 28px; border-top: 1px solid var(--line); }
-.founder-names b { display: block; font-family: var(--font-head); font-size: clamp(20px, 2.4vw, 26px); letter-spacing: 0.02em; }
-.founder-names span { display: block; margin-top: 4px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-2); font-family: var(--font-head); }
-.founders-line { margin-top: 30px; font-family: var(--font-head); font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--off); }
+/* ---------- About SpiritDrop (About: #about-spiritdrop) ---------- */
+/* Desktop: image + notes left, copy right. Mobile: image, copy, then notes. */
+.about-intro { display: grid; grid-template-columns: 0.9fr 1.1fr; grid-template-areas: "fig copy" "notes copy"; column-gap: 64px; row-gap: 26px; align-items: center; }
+.about-figure { grid-area: fig; margin: 0; display: flex; justify-content: center; }
+.about-figure img { display: block; width: min(330px, 74%); height: auto; }
+.about-copy { grid-area: copy; }
+/* product annotations under the dispenser: hairline rows, no cards */
+.about-notes { grid-area: notes; align-self: start; justify-self: center; list-style: none; width: 100%; max-width: 420px; border-top: 1px solid var(--line); }
+.about-notes li { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--line-2); font-size: 14px; color: var(--muted); }
+.about-notes b { font-family: var(--font-head); font-weight: 400; font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--off); white-space: nowrap; }
+.about-copy p { color: var(--muted); font-size: 16.5px; line-height: 1.7; margin-top: 20px; max-width: 50ch; }
+.about-copy p.lead { color: var(--off); font-size: clamp(18px, 1.9vw, 21px); line-height: 1.55; }
+.about-copy .about-line { max-width: none; margin-top: 30px; font-family: var(--font-head); font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #c4a0fd; }
 
-.founder-teaser { display: grid; grid-template-columns: 200px 1fr auto; gap: 36px; align-items: center; padding: 34px 36px; border: 1px solid var(--line); background: var(--panel); }
-.founder-teaser img { display: block; width: 200px; height: 200px; object-fit: cover; }
-.founder-teaser h3 { font-family: var(--font-head); font-size: clamp(22px, 2.6vw, 32px); line-height: 1.1; }
-.founder-teaser p { color: var(--muted); font-size: 15.5px; line-height: 1.65; margin-top: 12px; max-width: 54ch; }
+/* Why SpiritDrop exists: heading left, copy right, ruled */
+.why { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 56px; align-items: start; padding-top: 48px; border-top: 1px solid var(--line); }
+.why-copy p { color: var(--muted); font-size: 16.5px; line-height: 1.7; margin-top: 18px; max-width: 56ch; }
+.why-copy p:first-child { margin-top: 0; color: var(--off); font-size: clamp(19px, 2.1vw, 24px); line-height: 1.5; }
+
+/* What we do: closing typographic statement */
+.drop-statement { margin-top: 64px; font-family: var(--font-head); font-size: clamp(40px, 8.6vw, 112px); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.005em; }
+.drop-statement span { display: block; }
+.drop-statement span:last-child { color: #c4a0fd; }
+
+/* Home: small brand-story teaser */
+.brand-teaser { display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; padding: 30px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.brand-teaser h3 { font-family: var(--font-head); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.1; }
+.brand-teaser p { color: var(--muted); font-size: 15.5px; line-height: 1.65; margin-top: 10px; max-width: 60ch; }
+
 @media (max-width: 900px) {
-  .founders { grid-template-columns: 1fr; gap: 32px; }
-  .founder-teaser { grid-template-columns: 1fr; gap: 22px; text-align: left; justify-items: start; }
-  .founder-teaser img { width: min(220px, 60%); height: auto; aspect-ratio: 1; }
+  .about-intro { grid-template-columns: 1fr; grid-template-areas: "fig" "copy" "notes"; row-gap: 32px; }
+  .about-notes { justify-self: stretch; max-width: none; }
+  .about-figure img { width: min(280px, 66%); }
+  .why { grid-template-columns: 1fr; gap: 20px; padding-top: 36px; }
+  .drop-statement { margin-top: 48px; }
+  .brand-teaser { grid-template-columns: 1fr; gap: 20px; justify-items: start; }
 }
 @media (max-width: 420px) {
-  .founder-names { grid-template-columns: 1fr; gap: 16px; }
+  .about-notes li { flex-direction: column; gap: 2px; }
 }
 
 /* ---------- Contact ---------- */
