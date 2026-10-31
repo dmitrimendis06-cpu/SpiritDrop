@@ -1,13 +1,45 @@
+# Dependencies and build output
 node_modules/
 .next/
 out/
+dist/
+build/
 next-env.d.ts
 *.tsbuildinfo
-.env
-.env*.local
-# Production env is committed on purpose: it holds only public (NEXT_PUBLIC_) values.
-# Never add secret keys here.
-!.env.production
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
 
 # Machine-specific symlinks created by `npx skills` (restore with: npx skills experimental_install)
 .claude/skills/
+
+# ---------------------------------------------------------------------------
+# Secrets. Rule order matters: the last matching rule wins, so the exceptions
+# must stay at the bottom of this section.
+# ---------------------------------------------------------------------------
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Environment files, in any folder
+.env
+.env.*
+
+# Future backend and admin apps (already covered above; listed so the intent is explicit)
+backend/.env
+backend/.env.*
+admin/.env
+admin/.env.*
+server/.env
+server/.env.*
+
+# Exceptions:
+# - .env.example documents variable names, with no values, in any folder.
+# - The root .env.production is committed on purpose: the public site builds from it
+#   and it holds only public NEXT_PUBLIC_ values. Never add secret keys to it.
+#   Anchored with a leading slash so backend/.env.production etc. stay ignored.
+!.env.example
+!/.env.production
