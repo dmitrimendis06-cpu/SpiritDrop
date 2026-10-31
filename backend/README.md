@@ -4,7 +4,9 @@ Hostinger Node.js API and database logic for SpiritDrop.
 
 The public website and the admin portal (see `../admin`) will both use this one API and database.
 
-**Current state: connection skeleton only.** It has health checks and no tables, business logic, authentication or frontend connection. The live website still uses Supabase.
+**Current state: connection skeleton only.** It has health checks and no business logic, authentication or frontend connection. The live website still uses Supabase.
+
+The launch database is designed in `migrations/` and `docs/mariadb-schema-design.md`. **The migrations have not been run on any server yet.** `npm test` runs the checks; see section 16 of that document for the database tests.
 
 ## Deployment architecture
 
