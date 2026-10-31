@@ -6,7 +6,9 @@ The public website and the admin portal (see `../admin`) will both use this one 
 
 **Current state: connection skeleton only.** It has health checks and no business logic, authentication or frontend connection. The live website still uses Supabase.
 
-The launch database is designed in `migrations/` and `docs/mariadb-schema-design.md`. **The migrations have not been run on any server yet.** `npm test` runs the checks; see section 16 of that document for the database tests.
+The launch database is designed in `migrations/` and `docs/mariadb-schema-design.md`. **The migrations have been tested on local MariaDB but not run on Hostinger.** `npm test` runs the checks; see section 16 of that document for the database tests.
+
+All database code must use `createDbPool()` / `getPool()` from `src/config/database.js`, which sets UTC and strict SQL mode on every connection.
 
 ## Deployment architecture
 

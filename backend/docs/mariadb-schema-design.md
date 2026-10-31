@@ -2,7 +2,7 @@
 
 Branch: `admin-portal-v1`. Migrations: `backend/migrations/`. Background: `backend/docs/supabase-migration-audit.md`.
 
-**Status: designed, not yet run on any database.** Nothing has been executed on Hostinger or Supabase. No MariaDB was available locally, so the SQL has been checked statically and by a parser, but not on a real server (section 16).
+**Status: tested on local MariaDB 11.8.9 and 10.11.19, not yet run on Hostinger.** Nothing has been executed on Hostinger or Supabase (section 16).
 
 ## 1. Architecture
 
@@ -254,7 +254,9 @@ Random UUID keys cost InnoDB some insert efficiency, which doesn't matter at Spi
 | Timestamps | `DATETIME(6)` | UTC |
 | Event, collection, birth dates | `DATE` | Calendar dates, in Sydney terms |
 
-`DATETIME` doesn't convert time zones, so `CURRENT_TIMESTAMP(6)` follows the session setting. **Every connection must run `SET time_zone = '+00:00'`.** The current `backend/src/config/database.js` doesn't do this yet, because it only runs `SELECT 1`. It must be added before any route writes data, along with strict `sql_mode` and mysql2 options `timezone: 'Z'` and `dateStrings: ['DATE']`, so that dates can't shift by a day. Rows inserted by hand in phpMyAdmin depend on that session's setting.
+`DATETIME` doesn't convert time zones, so `CURRENT_TIMESTAMP(6)` follows the session setting. **Every connection must run `SET time_zone = '+00:00'`.** `createDbPool()` in `backend/src/config/database.js` does this on every new pooled connection, along with strict `sql_mode` and mysql2 options `timezone: 'Z'` and `dateStrings: ['DATE']`, so that dates can't shift by a day. A connection that can't be set up is destroyed rather than used. All database code must go through this pool. Rows inserted by hand in phpMyAdmin depend on that session's setting.
+
+This matters in practice: on a server not set to UTC, without this setup, `next_attempt_at` was stored hours in the future and the email worker couldn't claim the row. The first test run caught exactly that.
 
 **API and UI:**
 
@@ -380,14 +382,23 @@ npm test
 | Suite | Status | Coverage |
 |---|---|---|
 | `test/migrations.static.test.js` | **Runs anywhere; 16 of 16 pass** | No Postgres syntax, no destructive statements, tables, types, statuses, foreign keys, indexes, no add-ons, card data or provider names, seed matches the website, test-database guard |
-| `test/schema.integration.test.js` | **Written, not yet run**; skipped without a database | Real behaviour on MariaDB |
+| `test/database-config.test.js` | **Runs anywhere; 4 of 4 pass** | UTC and strict-mode setup; a connection that fails setup is destroyed |
+| `test/schema.integration.test.js` | **40 of 40 pass** on a local MariaDB; skipped without one | Real behaviour, below |
 
-**Checks done in addition:**
+**Database test coverage:**
 
-- 7 deliberate breaks to the migration files were each caught by the static tests.
-- An independent MariaDB parser accepted all 27 statements. It rejects the column name `status`, which is valid in MariaDB, so that word was renamed in its input to check 2 of them. This checks syntax only.
+- **Migrations:** both files apply to an empty database and can't be applied twice.
+- **Constraints:** each of the 54 `CHECK` constraints rejects a violating row, and the message must name that constraint. The test fails if a declared constraint has no violation case. All 6 foreign keys are `RESTRICT`.
+- **Seed:** all configuration, flavours and zones match the website's data. Every postcode prefix (000-999) gives the same zone and fee as the website's own checker.
+- **Concurrency:** six customers and then 15 rounds of 12 customers competing for the last dispenser, bookings on adjacent days, a second checkout blocking on the lock, and 25 simultaneous reference numbers.
+- **Rollback:** a checkout failing part-way, a rejected over-capacity checkout, a connection lost mid-transaction, and payment with its email rows.
+- **Connections:** UTC and strict mode on each of 5 separate pooled connections; bad data rejected; dates unchanged.
 
-**Not yet proven, because no server has run it:** that MariaDB accepts every statement, and that constraints, locking and the race test behave as designed. The integration suite covers these: integer cents, quantity limits, unique references, the concurrent counter, newsletter casing, foreign keys, controlled statuses, negative money, holds, outbox uniqueness and claiming, indexes, availability across both days, and six simultaneous customers competing for the last dispenser.
+**Environments that passed:** MariaDB 11.8.9 with default settings; MariaDB 11.8.9 with a hostile server configuration (global `time_zone` +10:00 and an empty `sql_mode`), proving nothing relies on server defaults; MariaDB 10.11.19. Each used a clean database.
+
+**The tests can fail.** Deliberately removing the `FOR UPDATE` lock, the connection setup, a `CHECK`, the rollback, a `RESTRICT` and a seed value was each caught.
+
+**Not covered:** the Hostinger server itself, whose exact version isn't confirmed. MySQL was not tested, only MariaDB. The checkout and mark-paid transactions in these tests are stand-ins showing the locking design; the real API routes don't exist yet and need their own tests.
 
 **To run it** on a throwaway local MariaDB (it drops and recreates its database):
 
@@ -399,8 +410,8 @@ TEST_DB_NAME=spiritdrop_test TEST_DB_USER=<local user> TEST_DB_PASSWORD=<local p
 
 ## 17. Before running on Hostinger
 
-1. **Pass the integration suite on a local MariaDB** of the same major version. This is the most important step.
-2. Confirm the Hostinger server version. `CHECK` enforcement needs MariaDB 10.2.1 or newer.
+1. Deploy the connection change in `src/config/database.js` and confirm `/health/db` still passes.
+2. Confirm the Hostinger server version. If it isn't 10.11 or 11.8, repeat the database tests locally on the same major version. `CHECK` enforcement needs MariaDB 10.2.1 or newer.
 3. Confirm the database user may create tables and foreign keys.
 4. Take a backup, even though the database is empty, and run `001` then `002` once.
 5. MariaDB can't roll back `CREATE TABLE`. If `001` fails part-way, the tables created so far must be dropped by hand before retrying.
@@ -415,3 +426,4 @@ TEST_DB_NAME=spiritdrop_test TEST_DB_USER=<local user> TEST_DB_PASSWORD=<local p
 - **Data to migrate:** 1 real enquiry. Everything else in Supabase is seed or empty.
 - **Date of birth retention:** `customer_dob` is stored for compliance, and the Privacy Policy promises it won't be kept longer than necessary. A retention rule needs deciding.
 - **Admin users:** designed separately, as agreed.
+- **Busy periods:** the pool allows 5 connections and 20 waiting requests, so a burst beyond that gets an error. Checkouts also run one at a time. The real routes should return a friendly "please try again", with rate limiting in front.
